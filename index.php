@@ -19,7 +19,7 @@ $films = [
         ]
     ],
     [
-        "producer" => "Леонид Гайдвй",
+        "producer" => "Леонид Гайдай",
         $motions2 = [
             $motion4 = [
                 "name" => "Кавказская пленница",
@@ -54,29 +54,31 @@ $films = [
     ]
 ];
 
-// echo "<table>";
-// echo "<tr><th>Режиссёр</th><th>Фильмы</th><th>Год выпуска</th></tr>";
-// function output($value1, $key1)
-// {
-//     foreach ($value1 as $key2 => $value2) {
-//         echo "<tr>";
-//         if (!is_array($value2)) {
-//             echo "<td rowspan='4'>$value2</td>\n";
-//         }
-//         if (is_array($value2)) {
-//             foreach ($value2 as $key3 => $value3) {
-//                 foreach ($value3 as $key4 => $value4) {
-//                     echo "<td>$value4</td>\n";
-//                 }
-//                 echo "</tr>";
-//             }
-//             echo "\n";
-//         }
-//     }
-// }
+echo "<table>";
+echo "<tr><th>Режиссёр</th><th>Фильмы</th><th>Год выпуска</th></tr>";
+function output($value1, $key1)
+{
+    foreach ($value1 as $key2 => $value2) {
+        echo "<tr>";
+        if (!is_array($value2)) {
+            echo "<td rowspan='4'>$value2</td>\n";
+        }
+        if (is_array($value2)) {
+            foreach ($value2 as $key3 => $value3) {
+                foreach ($value3 as $key4 => $value4) {
+                    echo "<td>$value4</td>\n";
+                }
+                echo "</tr>";
+            }
+            echo "\n";
+        }
+    }
+}
 
-// array_walk($films, "output");
-// echo "</table>";
+$seach_result1 = array_flip(search($films, "а"));
+$seach_result2 = array_intersect_key($films, $seach_result1);
+array_walk($seach_result2, "output");
+echo "</table>\n";
 
 function search($films, $data)
 {
@@ -85,14 +87,14 @@ function search($films, $data)
         foreach ($value1 as $key2 => $value2) {
             if (!is_array($value2)) {
                 if (stristr($value2, $data)) {
-                    $result[] = $value2;
+                    $result[] = $key1;
                 }
             }
             if (is_array($value2)) {
                 foreach ($value2 as $key3 => $value3) {
                     foreach ($value3 as $key4 => $value4) {
                         if (strstr($value4, $data)) {
-                            $result[] = $value4;
+                            $result[] = $key1;
                         }
                     }
                 }
@@ -104,11 +106,3 @@ function search($films, $data)
     }
     return array_unique($result);
 }
-
-// print_r(search($films, "6"));
-$find = search($films, "Д");
-print "<table>";
-for ($i = 0; $i < count($find); $i++) {
-    print "<tr><td>$find[$i]</td></tr>\n";
-};
-print "</table>";
